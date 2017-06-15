@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.temenos.maven</groupId>
+		<artifactId>t24-core</artifactId>
+		<version>201702.0.0-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.nordea.cbp</groupId>
+	<artifactId>Nordea-iris-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus-t24</id>
+			<name>T24 Releases</name>
+			<url>http://maven.temenosgroup.com/content/repositories/t24-releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus-t24</id>
+			<name>T24 Snapshots</name>
+			<url>http://maven.temenosgroup.com/content/repositories/t24-snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<skipRIMGeneration>true</skipRIMGeneration>
+		<enqMetadataWithSelectionFieldsOnly>true</enqMetadataWithSelectionFieldsOnly>
+		<skipDomainGenerationForIRIS>true</skipDomainGenerationForIRIS>
+		<ignoreValidationErrors>true</ignoreValidationErrors>
+		<skipITs>true</skipITs>
+		<skipTest>false</skipTest>
+		<jetty.port>9081</jetty.port>
+		<spring.version>3.2.13.RELEASE</spring.version>
+		<iris.version>0.15.0-SNAPSHOT</iris.version>
+		<t24AdapterForIrisVersion>DEV.0.0-SNAPSHOT</t24AdapterForIrisVersion>
+		<t24ResourceProviderVersion>DEV.0.0-SNAPSHOT</t24ResourceProviderVersion>
+		<t24CatalogServiceVersion>DEV.0.0-SNAPSHOT</t24CatalogServiceVersion>
+		<frameworkPackaging>tafj</frameworkPackaging> 
+         <!-- Technology dependency-->
+		<tocf.version>16.0.0.0</tocf.version>
+        <!-- TAFJ dependency -->
+		<tComponentFramework.version>17.3.1</tComponentFramework.version>                              
+        <!-- External Dependency Version -->
+		<j2eeConnector.version>2.0.0</j2eeConnector.version>
+		<commonsCli.version>1.2</commonsCli.version>
+		<commonsCollections.version>3.2.1</commonsCollections.version>
+		<commonsLang.version>2.6</commonsLang.version>
+		<commonsLogging.version>1.1.1</commonsLogging.version>
+		<commonsPool.version>1.5.5</commonsPool.version>
+		<logbackClassic.version>0.9.29</logbackClassic.version>
+		<jettyServlets.version>7.6.13.v20130916</jettyServlets.version>
+		<handyUriTemplates.version>1.1.7</handyUriTemplates.version>
+		<mockito.version>1.9.0</mockito.version>
+		<buildHelperMavenPlugin.version>1.7</buildHelperMavenPlugin.version>
+		<lifecycleMapping.version>1.0.0</lifecycleMapping.version>
+		<mavenEnforcerPlugin.version>1.3.1</mavenEnforcerPlugin.version>
+		<mavenCompilerPlugin.version>1.7</mavenCompilerPlugin.version>
+		<truezipMavenPlugin.version>1.1</truezipMavenPlugin.version>
+		<mavenWarPlugin.version>2.4</mavenWarPlugin.version>
+		<odata4j.version>0.7.0</odata4j.version>
+		<apache.abdera.version>1.1.2</apache.abdera.version>
+		<mockito.version>1.8.4</mockito.version>
+		<sun.jersey.version>1.10</sun.jersey.version>
+		<slf4j.version>1.6.4</slf4j.version>
+		<commons-logging.version>1.1</commons-logging.version>
+		<junit.version>4.12</junit.version>
+		<hamcrest.version>1.3</hamcrest.version>
+		<jackson.version>2.3.0</jackson.version>
+	</properties>
+
+	<modules>
+		<module>../Nordea-c-models</module>
+		<module>../Nordea-models</module>
+		<module>../Nordea-models-gen</module>
+		<module>../Nordea-iris</module>
+		<module>../Nordea-packager</module>
+		<module>../Nordea-iris-tests</module>
+	</modules>
+</project>
