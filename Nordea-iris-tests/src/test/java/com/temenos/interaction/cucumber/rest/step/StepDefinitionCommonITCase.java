@@ -1,17 +1,11 @@
-package com.temenos.interaction.core.stepDefinition;
+package com.temenos.interaction.cucumber.rest.step;
 
-import static com.temenos.interaction.core.DashboardUtility.aftercase;
-import static com.temenos.interaction.core.DashboardUtility.beforecase;
-import static com.temenos.interaction.core.DashboardUtility.testCaseDescription;
-import static com.temenos.interaction.core.DashboardUtility.testCaseName;
-import static com.temenos.interaction.core.MatcherUtility.getMatcherFunction;
-import static com.temenos.interaction.core.MatcherUtility.runMatchAssertion;
-import static com.temenos.interaction.core.stepDefinition.StepDefinitonBase.executeRequest;
-import static com.temenos.interaction.core.stepDefinition.StepDefinitonBase.getInteractionSession;
-import static com.temenos.interaction.core.stepDefinition.StepDefinitonBase.getInteractionSessionURL;
-import static com.temenos.interaction.core.stepDefinition.StepDefinitonBase.getScenarioBundle;
-import static com.temenos.interaction.test.InteractionHelper.newInitialisedSession;
-import static com.temenos.interaction.test.IrisConstants.REL_PREFIX;
+import static com.temenos.interaction.cucumber.core.MatcherUtility.getMatcherFunction;
+import static com.temenos.interaction.cucumber.core.MatcherUtility.runMatchAssertion;
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.executeRequest;
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getInteractionSession;
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getInteractionSessionURL;
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getScenarioBundle;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -25,18 +19,19 @@ import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hamcrest.Matcher;
 
-import com.temenos.interaction.core.ScenarioBundle;
-import com.temenos.interaction.test.T24Helper;
+import com.temenos.interaction.cucumber.core.ScenarioBundle;
+import com.temenos.interaction.cucumber.test.EndpointConfig;
+import com.temenos.interaction.cucumber.test.T24Helper;
 import com.temenos.useragent.generic.Entity;
 import com.temenos.useragent.generic.InteractionSession;
 import com.temenos.useragent.generic.internal.ActionableLink;
 
 import cucumber.api.Scenario;
-import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -44,10 +39,8 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 /**
- * TODO: Document me!
- *
- * @author mohamedasarudeen
- *
+ * Step definition generic methods to validate the corresponding feature file
+ * scenarios
  */
 public class StepDefinitionCommonITCase {
 
@@ -62,12 +55,12 @@ public class StepDefinitionCommonITCase {
         this.bundle = getScenarioBundle(scenario);
     }
 
-    @After
+    /*    @After
     public static void cleanup() throws Exception {
         aftercase(testCaseName, testCaseDescription);
     }
 
-    @Given("^a scenario (.*)$")
+   @Given("^a scenario (.*)$")
     public void a_scenario(String scenarioName) throws Throwable {
         testCaseName = scenarioName;
         beforecase(testCaseName);
@@ -76,23 +69,23 @@ public class StepDefinitionCommonITCase {
     @Given("^a description is (.*)$")
     public void a_description(String scenarioDescription) {
         testCaseDescription = scenarioDescription;
-    }
+    }*/
 
     @Given("Set Interaction Session BASE_URI as (.*)$")
     public void interactionSession_setBaseUri(String baseURI) {
         getInteractionSessionURL(scenario, session).baseuri(baseURI);
     }
 
-    @Given("Set Interaction Session path as (.*)$")
+    @Given("I create a request with path (.*)$")
     public void interactionSession_setPath(String postServicePath) {
         getInteractionSessionURL(scenario, session).path(postServicePath);
     }
-    
-    @Given("Set Interaction Session query parameters as (.*)$")
+
+    @Given("I set query parameter (.*)$")
     public void interactionSession_setUrlParams(String servicePath) {
         getInteractionSessionURL(scenario, session).queryParam(servicePath);
     }
-
+    
     @And("^i reuse Interaction Session$")
     public void interactionSession_reuse() {
         session.reuse();
@@ -116,6 +109,7 @@ public class StepDefinitionCommonITCase {
         session.set(propertyName, bundleValue);
     }
 */       
+    
     @When("^set property (.*) with bundle (.*) appended to value (.*)$")
     public void interactionSession_setPropertyValue(String propertyName, String bundleId, String propertyValue) {
         assertTrue(bundle.containsKey(bundleId));
@@ -135,7 +129,7 @@ public class StepDefinitionCommonITCase {
         if (StringUtils.isEmpty(rel)) {
             throw new IllegalArgumentException("REL not provided");
         }
-        ActionableLink link = session.entities().item().links().byRel(REL_PREFIX + rel);
+        ActionableLink link = session.entities().item().links().byRel(EndpointConfig.getRelPrefix() + rel);
         assertNotNull(link);
         executeRequest(scenario, link.url(), httpMethod);
         // TODO: 2nd params required for XML, whereas JSON doesn't require this
@@ -156,6 +150,13 @@ public class StepDefinitionCommonITCase {
         assertEquals(responseCode, responseCodeBVar);
     }
 
+    @Then("^the response is an collection$")
+    public void the_response_is_collection() throws Throwable {
+        assertTrue(session.entities().isCollection());
+        List<? extends Entity> response = session.entities().collection();
+        assertNotNull(response);
+    }
+    
     @Then("^the response is not empty$")
     public void the_response_is_not_empty() throws Throwable {
 

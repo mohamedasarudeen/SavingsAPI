@@ -1,15 +1,15 @@
 package com.temenos.interaction.utils;
 
-import static com.temenos.interaction.test.InteractionHelper.newInitialisedSession;
-import static com.temenos.interaction.test.IrisConstants.BASE_URI;
-import static com.temenos.interaction.test.IrisConstants.REL_AUTH;
-import static com.temenos.interaction.test.IrisConstants.REL_HOLD;
-import static com.temenos.interaction.test.IrisConstants.REL_INPUT;
+import static com.temenos.interaction.cucumber.test.InteractionHelper.newInitialisedSession;
+import static com.temenos.interaction.cucumber.test.IrisConstants.BASE_URI;
+import static com.temenos.interaction.cucumber.test.IrisConstants.REL_AUTH;
+import static com.temenos.interaction.cucumber.test.IrisConstants.REL_HOLD;
+import static com.temenos.interaction.cucumber.test.IrisConstants.REL_INPUT;
 
 import org.apache.http.HttpHeaders;
 
-import com.temenos.interaction.test.EndpointConfig;
-import com.temenos.interaction.test.T24Helper;
+import com.temenos.interaction.cucumber.test.EndpointConfig;
+import com.temenos.interaction.cucumber.test.T24Helper;
 import com.temenos.useragent.generic.InteractionSession;
 import com.temenos.useragent.generic.Url;
 

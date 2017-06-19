@@ -1,4 +1,4 @@
-package com.temenos.interaction.test;
+package com.temenos.interaction.cucumber.test;
 
 /**
  * Defines the T24 related constants being used across tests.

@@ -6,10 +6,8 @@ Feature: Savings API-Service1 - Get list of arrangements
 
 Scenario: Get list of arrangements for the given customer 
 
-    Given a scenario Verifying list of arrangements for the given customer 
-    And a description is To validate a list of arrangements for the given customer 
-    Given Set Interaction Session path as v1/customers/ 
-    And Set Interaction Session query parameters as 1014/arrangements 
+    Given I create a request with path v1/customers/ 
+    And I set query parameter 1014/arrangements 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
@@ -20,30 +18,24 @@ Scenario: Get list of arrangements for the given customer
     
 Scenario: Get list of arrangements for the given invalid customer 
 
-    Given a scenario Verifying list of arrangements for the given invalid customer 
-    And a description is To validate a list of arrangements for the given invalid customer 
-    Given Set Interaction Session path as v1/customers/ 
-    And Set Interaction Session query parameters as foo/arrangements 
+    Given I create a request with path v1/customers/ 
+    And I set query parameter foo/arrangements 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is empty 
     
 Scenario: Get list of arrangements for the given empty customer 
 
-    Given a scenario Verifying list of arrangements for the given empty customer 
-    And a description is To validate a list of arrangements for the given empty customer 
-    Given Set Interaction Session path as v1/customers/ 
-    And Set Interaction Session query parameters as "" 
+    Given I create a request with path v1/customers/ 
+    And I set query parameter "" 
     When i execute GET request 
     Then the HTTP status is 405 
     Then the response is empty 
     
 Scenario: Get list of arrangements for the given customer and validate property 
 
-    Given a scenario Verifying list of arrangements for the given customer and validate property 
-    And a description is To validate a list of arrangements for the given customer and validate property 
-    Given Set Interaction Session path as v1/customers/ 
-    And Set Interaction Session query parameters as 1014/arrangements 
+  Given I create a request with path v1/customers/ 
+    And I set query parameter 1014/arrangements 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response of each property values is not empty AccountIBAN 

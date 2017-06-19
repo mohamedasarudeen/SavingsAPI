@@ -1,4 +1,4 @@
-package com.temenos.interaction.core;
+package com.temenos.interaction.cucumber.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,19 +23,7 @@ import com.temenos.useragent.generic.internal.ActionableLink;
  */
 public class Assertions {
 
-    public static InteractionSession getResource(String resource) {
-        InteractionSession session = T24GenericEnquiry.query(resource);
-        assertEquals(HttpStatus.SC_OK, session.result().code());
-        return session;
-    }
-
-    public static InteractionSession getResourceWithParam(String resource, String queryParam) {
-        InteractionSession session = T24GenericEnquiry.queryByParam(resource, queryParam);
-        assertEquals(200, session.result().code());
-        return session;
-    }
-
-    public static void assertLinkReturnsStatusOK(Link link, InteractionSession session) {
+   public static void assertLinkReturnsStatusOK(Link link, InteractionSession session) {
         session.url(link.baseUrl() + link.href()).get();
         assertEquals(200, session.result().code());
     }

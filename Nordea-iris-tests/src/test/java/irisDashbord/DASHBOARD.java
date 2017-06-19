@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import com.temenos.interaction.core.DashboardUtility;
+import com.temenos.interaction.cucumber.core.DashboardUtility;
 /**
  * TODO: Document me!
  *

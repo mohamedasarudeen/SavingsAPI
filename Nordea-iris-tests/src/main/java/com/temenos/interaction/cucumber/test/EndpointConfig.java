@@ -1,4 +1,4 @@
-package com.temenos.interaction.test;
+package com.temenos.interaction.cucumber.test;
 
 public class EndpointConfig {
 
@@ -106,4 +106,19 @@ public class EndpointConfig {
 		assert (t24Company != null);
 		return t24Company;
 	}
+	
+    /**
+     * Return REL Prefix from system property if missing in system property then
+     * use default.
+     * 
+     * @return rel
+     */
+    public static String getRelPrefix() {
+        String rel = System.getProperty("REL");
+        if (rel == null) {
+            rel = EndpointConstants.TEST_REL_PREFIX;
+        }
+        assert (rel != null);
+        return rel;
+    }
 }

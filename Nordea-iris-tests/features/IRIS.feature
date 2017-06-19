@@ -5,9 +5,8 @@ Feature: IRIS-Fetch and verify list of currencylists and Post new record
 #Given Initialize the Interaction session with mediatype application/atom+xml
 
 Scenario Outline: Verifying the list currency with valid request 
-    Given a scenario Verifying the list currency enquiry 
-    And a description is To validate a currency list enquiry with valid request 
-    And Set Interaction Session path as enqCurrencyListTsts() 
+ 
+    Given I create a request with path enqCurrencyListTsts() 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
@@ -17,9 +16,8 @@ Scenario Outline: Verifying the list currency with valid request
         |         200 |
         
 Scenario Outline: Verifying the list currency with valid request Arrangement 
-    Given a scenario Verifying the list currency enquiry 
-    And a description is To validate a currency list enquiry with valid request 
-    And Set Interaction Session path as enqlistAaProductLines() 
+
+    Given I create a request with path enqlistAaProductLines() 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
@@ -31,10 +29,8 @@ Scenario Outline: Verifying the list currency with valid request Arrangement
         
 Scenario: Verifying the test currency enquiry with operators EQ 
 
-    Given a scenario Verifying the test currency enquiry with operators EQ 
-    And a description is To validate a currency list enquiry with Equal operators 
-    And Set Interaction Session path as enqCurrencyListTsts() 
-    Given Set Interaction Session query parameters as $filter=NoOfDecimals+eq+2+and+NumericCcyCode+eq+752 
+    Given I create a request with path enqCurrencyListTsts() 
+    And I set query parameter $filter=NoOfDecimals+eq+2+and+NumericCcyCode+eq+752 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
@@ -44,9 +40,7 @@ Scenario: Verifying the test currency enquiry with operators EQ
     
 Scenario: Verifying the new test customer is hold using post method 
 
-    Given a scenario Verifying the new test customer creation 
-    And a description is To validate a new customer is created with mandatory fields and values 
-    Given Set Interaction Session path as verCustomer_InputTsts()/new 
+    Given I create a request with path verCustomer_InputTsts()/new 
     When i execute POST request 
     Then the HTTP status is 201 
     And set bundle customerId with session property CustomerCode value
@@ -64,9 +58,7 @@ Scenario: Verifying the new test customer is hold using post method
     
 Scenario: Verifying the new test customer is created using post method 
 
-    Given a scenario Verifying the new test customer creation 
-    And a description is To validate a new customer is created with mandatory fields and values 
-    Given Set Interaction Session path as verCustomer_InputTsts()/new 
+    Given I create a request with path verCustomer_InputTsts()/new 
     When i execute POST request 
     Then the HTTP status is 201
     And set bundle customerId with session property CustomerCode value
@@ -83,14 +75,12 @@ Scenario: Verifying the new test customer is created using post method
     Then the HTTP status is 201 
     And Authorise the created record 
     Then the HTTP status is 200 
-    Then the response is an entity 
+    Then the response is an entity  
     
 Scenario Outline: Verifying the test currency enquiry with operators OR 
 
-    Given a scenario Verifying the test currency enquiry with operators OR 
-    And a description is To validate a currency list enquiry with OR operators 
-    And Set Interaction Session path as enqCurrencyListTsts() 
-    Given Set Interaction Session query parameters as $filter=Id+eq+%27EUR%27+or+Id+eq+%27USD%27 
+    Given I create a request with path enqCurrencyListTsts() 
+    And I set query parameter $filter=Id+eq+%27EUR%27+or+Id+eq+%27USD%27 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
@@ -102,10 +92,8 @@ Scenario Outline: Verifying the test currency enquiry with operators OR
         
 Scenario Outline: Verifying the test currency enquiry with operators top 
 
-    Given a scenario Verifying the test currency enquiry with operators top 
-    And a description is To validate a currency list enquiry with top operators 
-    And Set Interaction Session path as enqCurrencyListTsts() 
-    Given Set Interaction Session query parameters as $top=1 
+    Given I create a request with path enqCurrencyListTsts() 
+    And I set query parameter $top=1 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
@@ -117,10 +105,8 @@ Scenario Outline: Verifying the test currency enquiry with operators top
         
 Scenario: Verifying the test currency enquiry with operators skip 
 
-    Given a scenario Verifying the test currency enquiry with operators skip 
-    And a description is To validate a currency list enquiry with skip operators 
-    And Set Interaction Session path as enqCurrencyListTsts() 
-    Given Set Interaction Session query parameters as $skip=4 
+    Given I create a request with path enqCurrencyListTsts() 
+    And I set query parameter $skip=4 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
@@ -128,10 +114,8 @@ Scenario: Verifying the test currency enquiry with operators skip
     
 Scenario: Verifying the test customerinfos enquiry 
 
-    Given a scenario Verifying the test customerinfos enquiry 
-    And a description is To validate a customerinfos enquiry with parameters customerid 
-    And Set Interaction Session path as enqCustomerInfos() 
-    Given Set Interaction Session query parameters as $filter=CusNo+eq+100106 
+    Given I create a request with path enqCustomerInfos() 
+    And I set query parameter $filter=CusNo+eq+100106 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
@@ -139,10 +123,8 @@ Scenario: Verifying the test customerinfos enquiry
     
 Scenario Outline: Verifying the test currency enquiry with unknown field 
 
-    Given a scenario Verifying the test currency enquiry with unknown field 
-    And a description is To validate a currency list enquiry with unknown fields 
-    And Set Interaction Session path as enqCurrencyListTsts() 
-    Given Set Interaction Session query parameters as <uri> 
+    Given I create a request with path enqCurrencyListTsts() 
+    And I set query parameter <uri> 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
@@ -153,21 +135,17 @@ Scenario Outline: Verifying the test currency enquiry with unknown field
         
 Scenario: Verifying the test customerinfos with zero records 
 
-    Given a scenario Verifying the test test customerinfos with zero records 
-    And a description is To validate a customerinfos with zero records 
-    And Set Interaction Session path as enqCustomerInfos() 
-    Given Set Interaction Session query parameters as $filter=CusNo+eq+%27foo%27 
+    Given I create a request with path enqCustomerInfos() 
+    And I set query parameter $filter=CusNo+eq+%27foo%27 
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is empty 
     
 Scenario Outline:
 Verifying the test customerinfos enquiry to display and selection field with same name 
-
-    Given a scenario Verifying the customerinfos enquiry to display and selection field with same name 
-    And a description is To validate CUSTOMER.INFO Enquiry has been modified to have Sect field, which has same name as Custom-Selection having SECTOR 
-    And Set Interaction Session path as enqCustomerInfos() 
-    Given Set Interaction Session query parameters as $filter=Sect+eq+1000 
+ 
+    Given I create a request with path enqCustomerInfos() 
+    And I set query parameter $filter=Sect+eq+1000 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 

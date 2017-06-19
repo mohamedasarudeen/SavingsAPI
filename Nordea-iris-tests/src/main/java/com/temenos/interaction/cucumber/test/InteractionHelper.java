@@ -1,4 +1,4 @@
-package com.temenos.interaction.test;
+package com.temenos.interaction.cucumber.test;
 
 import java.net.URLEncoder;
 

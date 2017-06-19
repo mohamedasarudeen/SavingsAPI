@@ -7,17 +7,17 @@ import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 
 import com.cucumber.listener.Reporter;
-import com.temenos.interaction.core.DashboardUtility;
+import com.temenos.interaction.cucumber.core.DashboardUtility;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @SuppressWarnings("deprecation")
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "features", glue = { "com.temenos.interaction.core.stepDefinition" }, format = { "pretty",
+@CucumberOptions(features = "features", glue = { "com.temenos.interaction.cucumber.rest.step" }, format = { "pretty",
         "html:target/cucumber", "json:target/cucumber/cucumber.json" }, plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/CucumberExtentsReport.html" },
 // tags = {"@Service1,@Service2,@Iris1"})
-tags = { "@Iris" })
+tags = { "@Iris2" })
 public class RunFeaturesITCase {
 
     @BeforeClass

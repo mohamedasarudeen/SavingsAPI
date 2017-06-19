@@ -1,4 +1,4 @@
-package com.temenos.interaction.core;
+package com.temenos.interaction.cucumber.core;
 
 import java.util.Collection;
 import java.util.HashMap;

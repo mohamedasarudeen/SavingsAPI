@@ -1,7 +1,7 @@
 package com.temenos.interaction.utils;
 
-import com.temenos.interaction.test.EndpointConfig;
-import com.temenos.interaction.test.InteractionHelper;
+import com.temenos.interaction.cucumber.test.EndpointConfig;
+import com.temenos.interaction.cucumber.test.InteractionHelper;
 import com.temenos.useragent.generic.InteractionSession;
 
 /**

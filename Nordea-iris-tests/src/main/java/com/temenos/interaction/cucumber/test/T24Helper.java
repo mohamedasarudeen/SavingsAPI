@@ -1,11 +1,11 @@
-package com.temenos.interaction.test;
+package com.temenos.interaction.cucumber.test;
 
-import static com.temenos.interaction.test.IrisConstants.BASE_URI;
-import static com.temenos.interaction.test.T24Constants.ERROR_CODE;
-import static com.temenos.interaction.test.T24Constants.ERROR_ELEMENT;
-import static com.temenos.interaction.test.T24Constants.ERROR_INFO;
-import static com.temenos.interaction.test.T24Constants.ERROR_TEXT;
-import static com.temenos.interaction.test.T24Constants.ERROR_TYPE;
+import static com.temenos.interaction.cucumber.test.IrisConstants.BASE_URI;
+import static com.temenos.interaction.cucumber.test.T24Constants.ERROR_CODE;
+import static com.temenos.interaction.cucumber.test.T24Constants.ERROR_ELEMENT;
+import static com.temenos.interaction.cucumber.test.T24Constants.ERROR_INFO;
+import static com.temenos.interaction.cucumber.test.T24Constants.ERROR_TEXT;
+import static com.temenos.interaction.cucumber.test.T24Constants.ERROR_TYPE;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
