@@ -1,6 +1,6 @@
 package com.temenos.interaction.cucumber.rest.step;
 
-import static com.temenos.interaction.cucumber.core.MatcherUtility.getMatcherFunction;
+import static com.temenos.interaction.cucumber.core.MatcherUtility.*;
 import static com.temenos.interaction.cucumber.core.MatcherUtility.runMatchAssertion;
 import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.executeRequest;
 import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getInteractionSession;
@@ -86,7 +86,12 @@ public class StepDefinitionCommonITCase {
         getInteractionSessionURL(scenario, session).queryParam(servicePath);
     }
     
-    @And("^i reuse Interaction Session$")
+    @Given("^I set request header (.*) with value (.*)$")
+    public void givenRequestHeader(String key, String value) throws Throwable {
+        session.header(key, value);
+    }
+    
+    @And("^i reuse my session$")
     public void interactionSession_reuse() {
         session.reuse();
     }
@@ -156,27 +161,12 @@ public class StepDefinitionCommonITCase {
         List<? extends Entity> response = session.entities().collection();
         assertNotNull(response);
     }
-    
+   
     @Then("^the response is not empty$")
     public void the_response_is_not_empty() throws Throwable {
 
         int responseCollectionSize = session.entities().collection().size();
         assertThat(responseCollectionSize, greaterThan(0));
-    }
-
-    @Then("^property (.*) should be (.*) in all entities on (.*)$")
-    public void property_should_be_in_all_entities_on(String propertyId, String propertyValue, String key)
-            throws Throwable {
-        for (Entity entity : session.entities().collection()) {
-            int keyCount = entity.count(key);
-            if (keyCount <= 0) {
-                fail("PropertyId got from all entities is mandatory but not found in response");
-            }
-            for (int i = 0; i < keyCount; i++) {
-                assertFalse(StringUtils.isEmpty(entity.get("" + key + "(" + i + ")" + "/" + propertyId + "")));
-                assertEquals(propertyValue, entity.get("" + key + "(" + i + ")" + "/" + propertyId + ""));
-            }
-        }
     }
 
     @Then("^the response is empty$")
@@ -193,46 +183,83 @@ public class StepDefinitionCommonITCase {
 
         }
     }
-
-    @Then("^property (.*) should be (.*) anyofparam matcher (.*) in entity Y$")
-    public void property_should_be_entity_Y_multipleKeyValue(String propertyId, String matchMethod, String propertyValue)
+  
+    @Then("^property (.*) matcher (.*) method (.*) value (.*) in entity$")
+    public void property_should_be_entity_Y_multipleKeyValue(String propertyId, String matchMethod, String matcherArg, String propertyValue )
             throws Throwable {
         String[] paramSplit = propertyValue.split(",");
-        assertThat(session.entities().collection().size(), equalTo(paramSplit.length));
+       // assertThat(session.entities().collection().size(), equalTo(paramSplit.length));
         Matcher<String>[] params = new Matcher[paramSplit.length];
         int count = 0;
         while (paramSplit.length > count
                 && (params[count] = (Matcher<String>) getMatcherFunction(Arrays.asList(matchMethod),
                         paramSplit[count++])) != null)
             ;
-
+        
+        Matcher matcher = getMatcherFunction(Arrays.asList(matcherArg), params);
         for (Entity entity : session.entities().collection()) {
-            assertThat(entity.get(propertyId), anyOf(params));
+            assertThat(entity.get(propertyId), matcher);
         }
     }
 
-    @Then("^property (.*) should be (.*) (.*) in entity Z$")
-    public void property_should_be_in_entity_Z(String propertyId, String matchMethod, String propertyValue)
+    @Then("^property (.*) should be (.*) (.*) in entity$")
+    public void property_should_be_in_entity_Z(String propertyId, ArrayList<String>  matchMethod, String propertyValue)
             throws Throwable {
-        Matcher<String> matcher = (Matcher<String>) getMatcherFunction(Arrays.asList(matchMethod), propertyValue);
+        Matcher<String> matcher = (Matcher<String>) getMatcherFunction(matchMethod,propertyValue);
         runMatchAssertion(session, propertyId, matcher);
     }
+      
+    @Then("^check the property (.*) should be (.*) in entity response$")
+    public void property_should_be_entity(String propertyId, ArrayList<String>  matchMethod)
+            throws Throwable {
+        Matcher<String> matcher = (Matcher<String>) getMatcherFunction(matchMethod,"");
+        runMatchAssertion(session, propertyId, matcher);
+    }
+  
+    @Then("^entity property (.*) with value (.*), should have (.*) value (.*) (.*)$")
+    public void entity_property_should_be_entity_Z(String key, String value, String targetKey, ArrayList<String> matchMethod, String targetValue)
+            throws Throwable {
+        Entity targetEntity = null;
+        for (Entity entity : session.entities().collection()) {
+            if(entity.get(key) != null && entity.get(key).equals(value)){
+                targetEntity = entity;
+                break;
+            }
+        }
+        assertNotNull(targetEntity);
+        assertThat(targetEntity.get(targetKey), getMatcherFunction(matchMethod, targetValue));
+    }
 
-    @Then("^propertyindex (.*) and (.*) should be (.*) (.*) in entity X$")
+    @Then("^propertyindex (.*) and (.*) should be (.*) (.*) in entity$")
     public void property_index_should_be_in_entity_X(String index, String propertyId, String matchMethod,
             String propertyValue) throws Throwable {
         Matcher<String> matcher = (Matcher<String>) getMatcherFunction(Arrays.asList(matchMethod), propertyValue);
         assertThat(session.entities().collection().get(Integer.parseInt(index)).get(propertyId), matcher);
     }
 
-    @Then("^entity size should be (.*) (.*) in entity Z$")
+    @Then("^entity size should be (.*) (.*) in entity$")
     public void collection_should_be_in_entity_Z(int propertyValue, ArrayList<String> matchMethod) throws Throwable {
         int entitiesCount = session.entities().collection().size();
         Matcher<Integer> matcher = getMatcherFunction(matchMethod, propertyValue);
         assertThat(entitiesCount, matcher);
     }
 
-    @Then("^property (.*) should be (.*) in entity Z on (.*)$")
+    @Then("^property (.*) should be (.*) in all entities on (.*)$")
+    public void property_should_be_in_all_entities_on(String propertyId, String propertyValue, String key)
+            throws Throwable {
+        for (Entity entity : session.entities().collection()) {
+            int keyCount = entity.count(key);
+            if (keyCount <= 0) {
+                fail("PropertyId got from all entities is mandatory but not found in response");
+            }
+            for (int i = 0; i < keyCount; i++) {
+                assertFalse(StringUtils.isEmpty(entity.get("" + key + "(" + i + ")" + "/" + propertyId + "")));
+                assertEquals(propertyValue, entity.get("" + key + "(" + i + ")" + "/" + propertyId + ""));
+            }
+        }
+    } 
+    
+   @Then("^property (.*) should be (.*) in entity on (.*)$")
     public void property_should_be_in_entity_Z_on(String propertyId, String propertyValue, String key) throws Throwable {
         for (Entity entity : session.entities().collection()) {
             int keyCount = entity.count(key);

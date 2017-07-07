@@ -5,7 +5,7 @@ Feature: IRIS-Fetch and verify list of currencylists and Post new record
 #Given Initialize the Interaction session with mediatype application/atom+xml
 
 Scenario Outline: Verifying the list currency with valid request 
- 
+
     Given I create a request with path enqCurrencyListTsts() 
     When i execute GET request 
     Then the HTTP status is <responseCode> 
@@ -43,8 +43,8 @@ Scenario: Verifying the new test customer is hold using post method
     Given I create a request with path verCustomer_InputTsts()/new 
     When i execute POST request 
     Then the HTTP status is 201 
-    And set bundle customerId with session property CustomerCode value
-    And i reuse Interaction Session 
+    And set bundle customerId with session property CustomerCode value 
+    And i reuse my session 
     And set property Mnemonic with bundle customerId appended to value C 
     And set property Name1MvGroup(0)/Name1 with value Mr Robin Peterson 
     And set property ShortNameMvGroup(0)/ShortName with value Rob 
@@ -60,10 +60,10 @@ Scenario: Verifying the new test customer is created using post method
 
     Given I create a request with path verCustomer_InputTsts()/new 
     When i execute POST request 
-    Then the HTTP status is 201
-    And set bundle customerId with session property CustomerCode value
-    And i reuse Interaction Session 
-    And set property Mnemonic with bundle customerId appended to value C
+    Then the HTTP status is 201 
+    And set bundle customerId with session property CustomerCode value 
+    And i reuse my session 
+    And set property Mnemonic with bundle customerId appended to value C 
     And set property Name1MvGroup(0)/Name1 with value Mr Robin Peterson 
     And set property ShortNameMvGroup(0)/ShortName with value Rob 
     And set property Sector with value 1001 
@@ -75,7 +75,7 @@ Scenario: Verifying the new test customer is created using post method
     Then the HTTP status is 201 
     And Authorise the created record 
     Then the HTTP status is 200 
-    Then the response is an entity  
+    Then the response is an entity 
     
 Scenario Outline: Verifying the test currency enquiry with operators OR 
 
@@ -97,7 +97,7 @@ Scenario Outline: Verifying the test currency enquiry with operators top
     When i execute GET request 
     Then the HTTP status is <responseCode> 
     Then the response is not empty 
-    Then entity size should be 2 not,equalTo in entity Z 
+    Then entity size should be 2 not,equalTo in entity 
     
     Examples: 
         | responseCode|
@@ -110,7 +110,7 @@ Scenario: Verifying the test currency enquiry with operators skip
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
-    Then entity size should be 35 equalTo in entity Z 
+    Then entity size should be 35 equalTo in entity 
     
 Scenario: Verifying the test customerinfos enquiry 
 
@@ -119,7 +119,7 @@ Scenario: Verifying the test customerinfos enquiry
     When i execute GET request 
     Then the HTTP status is 200 
     Then the response is not empty 
-    Then propertyindex 0 and CusNo should be equalTo 100106 in entity X 
+    Then propertyindex 0 and CusNo should be equalTo 100106 in entity 
     
 Scenario Outline: Verifying the test currency enquiry with unknown field 
 
@@ -141,8 +141,8 @@ Scenario: Verifying the test customerinfos with zero records
     Then the HTTP status is 200 
     Then the response is empty 
     
-Scenario Outline:
-Verifying the test customerinfos enquiry to display and selection field with same name 
+Scenario Outline: 
+    Verifying the test customerinfos enquiry to display and selection field with same name 
  
     Given I create a request with path enqCustomerInfos() 
     And I set query parameter $filter=Sect+eq+1000 

@@ -13,8 +13,8 @@ Scenario: Get list of arrangements for the given customer
     Then the response is not empty 
     Then property CustomerId should be 1014 in all entities on Holder 
     Then property CustomerId should be 1014 in at least one entity on Holder 
-    Then property CustomerId should be 1014 in entity Z on Holder 
-    Then property Role should be OWNER in entity Z on Holder 
+    Then property CustomerId should be 1014 in entity on Holder 
+    Then property Role should be OWNER in entity on Holder 
     
 Scenario: Get list of arrangements for the given invalid customer 
 
