@@ -91,6 +91,11 @@ public class StepDefinitionCommonITCase {
         session.header(key, value);
     }
     
+    @Given("^I set request header (.*) with session header (.*)$")
+    public void givenRequestHeaderSession(String key, String headerKey) throws Throwable {
+        session.header(key, session.header(headerKey));
+    }
+    
     @And("^i reuse my session$")
     public void interactionSession_reuse() {
         session.reuse();
@@ -180,11 +185,10 @@ public class StepDefinitionCommonITCase {
         assertThat(session.entities().collection().size(), greaterThan(0));
         for (Entity entity : session.entities().collection()) {
             assertFalse(StringUtils.isEmpty(entity.get(propertyId)));
-
         }
     }
   
-    @Then("^property (.*) matcher (.*) method (.*) value (.*) in entity$")
+    @Then("^property (.*) matcher (.*) method (.*) value '(.*)' in entity$")
     public void property_should_be_entity_Y_multipleKeyValue(String propertyId, String matchMethod, String matcherArg, String propertyValue )
             throws Throwable {
         String[] paramSplit = propertyValue.split(",");
@@ -197,12 +201,17 @@ public class StepDefinitionCommonITCase {
             ;
         
         Matcher matcher = getMatcherFunction(Arrays.asList(matcherArg), params);
-        for (Entity entity : session.entities().collection()) {
-            assertThat(entity.get(propertyId), matcher);
+        if (session.entities().isCollection()) {
+            for (Entity entity : session.entities().collection()) {
+                assertThat(entity.get(propertyId), matcher);
+            }
+        } else {            
+            Entity entity = session.entities().item();
+            assertThat(entity.get(propertyId), matcher);        
         }
     }
 
-    @Then("^property (.*) should be (.*) (.*) in entity$")
+    @Then("^property (.*) should be (.*) '(.*)' in entity$")
     public void property_should_be_in_entity_Z(String propertyId, ArrayList<String>  matchMethod, String propertyValue)
             throws Throwable {
         Matcher<String> matcher = (Matcher<String>) getMatcherFunction(matchMethod,propertyValue);
@@ -216,7 +225,7 @@ public class StepDefinitionCommonITCase {
         runMatchAssertion(session, propertyId, matcher);
     }
   
-    @Then("^entity property (.*) with value (.*), should have (.*) value (.*) (.*)$")
+    @Then("^entity property (.*) with value '(.*)', should have (.*) value (.*) '(.*)'$")
     public void entity_property_should_be_entity_Z(String key, String value, String targetKey, ArrayList<String> matchMethod, String targetValue)
             throws Throwable {
         Entity targetEntity = null;

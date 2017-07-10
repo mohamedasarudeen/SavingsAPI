@@ -30,6 +30,13 @@ public class StepDefinitionPostITCase {
                 .header(HttpHeaders.IF_MATCH, session.header(HttpHeaders.ETAG)).links().byRel(REL_AUTH).url().put();
     }
     
+    @And("^Authorise the created record with different user$")
+    public void authoriseEntityWithOtherUser() throws Throwable {
+
+        session.reuse().basicAuth(EndpointConfig.getUserName(), EndpointConfig.getPassword())
+                .header(HttpHeaders.IF_MATCH, session.header(HttpHeaders.ETAG)).links().byRel(REL_AUTH).url().put();
+    }
+    
     @And("^Reverse the created record$")
     public void reverseEntity() throws Throwable {
 

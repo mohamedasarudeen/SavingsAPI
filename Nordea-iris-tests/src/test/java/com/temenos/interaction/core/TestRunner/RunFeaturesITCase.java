@@ -17,7 +17,7 @@ import cucumber.api.junit.Cucumber;
 @CucumberOptions(features = "features", glue = { "com.temenos.interaction.cucumber.rest.step" }, format = { "pretty",
         "html:target/cucumber", "json:target/cucumber/cucumber.json" }, plugin = { "com.cucumber.listener.ExtentCucumberFormatter:target/CucumberExtentsReport.html" },
 // tags = {"@Service1,@Service2,@Iris1"})
-tags = { "@Iris2" })
+tags = { "@Iris1" })
 public class RunFeaturesITCase {
 
     @BeforeClass

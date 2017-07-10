@@ -25,8 +25,15 @@ public class MatcherUtility {
 
     @SuppressWarnings("unchecked")
     public static void runMatchAssertion(InteractionSession session, String propertyId, Matcher matcher) {
-        for (Entity entity : session.entities().collection()) {
+        if (session.entities().isCollection()) {
+            for (Entity entity : session.entities().collection()) {
+                assertThat(entity.get(propertyId), matcher);
+            }
+        } else {
+            
+            Entity entity = session.entities().item();
             assertThat(entity.get(propertyId), matcher);
+        
         }
     }
 
