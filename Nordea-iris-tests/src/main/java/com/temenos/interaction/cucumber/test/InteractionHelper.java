@@ -25,14 +25,13 @@ public class InteractionHelper {
     public static InteractionSession newInitialisedSession(String mediaType) {
         mediaType = System.getProperty("media.type", StringUtils.isNotEmpty(mediaType) ? mediaType
                 : "application/hal+json");
-        // mediaType = System.getProperty("media.type",
-        // StringUtils.isNotEmpty(mediaType) ? mediaType :
-        // "application/atom+xml");
-        return DefaultInteractionSession.newSession()
-                .basicAuth(EndpointConfig.getUserName(), EndpointConfig.getPassword())
-                .header(HttpHeaders.CONTENT_TYPE, mediaType).header(HttpHeaders.ACCEPT, mediaType);
+        InteractionSession session = DefaultInteractionSession.newSession();
+        if (EndpointConfig.getUserName() != null && EndpointConfig.getPassword() != null) {
+            session = session.basicAuth(EndpointConfig.getUserName(), EndpointConfig.getPassword());
+        }
+        session = session.header(HttpHeaders.CONTENT_TYPE, mediaType).header(HttpHeaders.ACCEPT, mediaType);
+        return session;
     }
-
     /**
      * Encodes the query param using {@link URLEncoder url encoder}.
      * 
