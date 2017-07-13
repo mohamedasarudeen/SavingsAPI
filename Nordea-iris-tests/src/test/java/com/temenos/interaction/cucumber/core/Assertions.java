@@ -16,14 +16,14 @@ import com.temenos.useragent.generic.Link;
 import com.temenos.useragent.generic.internal.ActionableLink;
 
 /**
- * TODO: Document me!
+ * Handling generic Assertions to call in test
  *
  * @author mohamedasarudeen
  *
  */
 public class Assertions {
 
-   public static void assertLinkReturnsStatusOK(Link link, InteractionSession session) {
+    public static void assertLinkReturnsStatusOK(Link link, InteractionSession session) {
         session.url(link.baseUrl() + link.href()).get();
         assertEquals(200, session.result().code());
     }

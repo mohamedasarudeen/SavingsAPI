@@ -12,6 +12,7 @@ import com.temenos.useragent.generic.Url;
 
 /**
  * Provides the generic functions for T24 Arrangement Activity version
+ * @author mohamedasarudeen
  */
 public class T24GenericArrangementActivity {
 

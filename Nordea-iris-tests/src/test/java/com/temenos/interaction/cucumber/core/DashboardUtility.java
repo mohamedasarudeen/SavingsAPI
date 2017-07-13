@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * TODO: Document me!
+ * Dashboard utility class for html report
  *
  * @author mohamedasarudeen
  *

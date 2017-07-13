@@ -12,6 +12,12 @@ import com.temenos.interaction.cucumber.core.DashboardUtility;
 import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
+/**
+ * Junit cucumber test Runner class to initialize the tests
+ *
+ * @author mohamedasarudeen
+ *
+ */
 @SuppressWarnings("deprecation")
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "features", glue = { "com.temenos.interaction.cucumber.rest.step" }, format = { "pretty",

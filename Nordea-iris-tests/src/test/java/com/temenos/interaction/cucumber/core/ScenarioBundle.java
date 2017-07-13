@@ -9,7 +9,7 @@ import cucumber.api.Scenario;
 import cucumber.api.java.After;
 
 /**
- * TODO: Document me!
+ * Generic bundle data for reuse in test scripts
  *
  * @author mohamedasarudeen
  *
@@ -95,6 +95,5 @@ public class ScenarioBundle implements Map<String, Object> {
     public Set<java.util.Map.Entry<String, Object>> entrySet() {
         return bundle.entrySet();
     }
-
 
 }

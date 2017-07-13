@@ -13,16 +13,24 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+
+import org.apache.http.HttpHeaders;
 
 import com.temenos.interaction.utils.T24GenericEnquiry;
 import com.temenos.useragent.generic.Entity;
 import com.temenos.useragent.generic.InteractionSession;
 import com.temenos.useragent.generic.Link;
 import com.temenos.useragent.generic.Url;
+import com.temenos.useragent.generic.internal.ActionableLink;
 
 /**
- * Created by ikarady on 20/06/2016.
+ * T24 Helper class for handling & accepting overrides and errors
+ * 
+ * @author mohamedasarudeen
+ * 
  */
+
 public class T24Helper {
 
     public static final String BASE_REL = "http://temenostech.temenos.com/rels";
@@ -34,6 +42,7 @@ public class T24Helper {
     public static final String REL_ERRORS = BASE_REL + "/errors";
     public static final String OVERRIDE_FIELD = "_OverrideMvGroup(%s)/Override";
     private static final String ERRORS_MV_GROUP = "ErrorsMvGroup";
+    private static final String ERRORS_MV_GROUP_XML = "Errors_".concat(ERRORS_MV_GROUP);
 
     /**
      * Accepts any overrides in {@link InteractionSession} and inputs them to
@@ -54,10 +63,19 @@ public class T24Helper {
      */
     public static void handleOverrideAcceptance(InteractionSession session, String entityName, Url inputURL,
             Map<Integer, String> overrideCodes) {
-        if (!entityName.isEmpty()) {
-            entityName = entityName + "_";
-        }
+
         if (!overrideCodes.isEmpty()) {
+            // Needs proper fix to get Entity based on Content Type
+            if (isXmlContent(session)) {
+                ActionableLink link = session.entities().item().links().byRel(REL_SELF);
+                if (link != null) {
+                    String[] items = link.href().split("s\\/|s\\(|\\/|\\(");
+                    if (items != null && items.length > 0) {
+                        entityName = items[0].concat("_");
+                    }
+                }
+            }
+
             session.reuse();
             for (Integer key : overrideCodes.keySet()) {
                 session.set(entityName + "OverrideMvGroup(" + key + ")/Override", overrideCodes.get(key));
@@ -72,14 +90,16 @@ public class T24Helper {
         if (errorEntity == null) {
             return codeMap;
         }
-        for (int i = 0; i < errorEntity.count(ERRORS_MV_GROUP); i++) {
+        String errorTag = isXmlContent(session) ? ERRORS_MV_GROUP_XML : ERRORS_MV_GROUP;
 
-            String errorType = errorEntity.get(ERRORS_MV_GROUP + "(" + i + ")/Type");
+        for (int i = 0; i < errorEntity.count(errorTag); i++) {
+
+            String errorType = errorEntity.get(errorTag + "(" + i + ")/Type");
             if ("OVERRIDE".equals(errorType)) {
-                codeMap.put(i, errorEntity.get(ERRORS_MV_GROUP + "(" + i + ")/Code"));
+                codeMap.put(i, errorEntity.get(errorTag + "(" + i + ")/Code"));
             } else if ("WARNING".equals(errorType)) {
-                String overrideText = errorType + "_" + errorEntity.get(ERRORS_MV_GROUP + "(" + i + ")/Code") + "_"
-                        + errorEntity.get(ERRORS_MV_GROUP + "(" + i + ")/Text") + "_RECEIVED";
+                String overrideText = errorType + "_" + errorEntity.get(errorTag + "(" + i + ")/Code") + "_"
+                        + errorEntity.get(errorTag + "(" + i + ")/Text") + "_RECEIVED";
                 codeMap.put(i, overrideText);
             }
         }
@@ -90,7 +110,13 @@ public class T24Helper {
         if (getLinkByRel(session.links().all(), REL_ERRORS) == null) {
             return null;
         }
-        return session.reuse().entities().item().embedded().entity();
+        if (isXmlContent(session)) {
+            // XML contents
+            return session.reuse().links().byRel(REL_ERRORS).embedded().entity();
+        } else {
+            // JSON and OTHER Types
+            return session.reuse().entities().item().embedded().entity();
+        }
     }
 
     private static Link getLinkByRel(List<Link> linkList, String rel) {
@@ -213,5 +239,14 @@ public class T24Helper {
             }
         }
         return true;
+    }
+
+    private static boolean isXmlContent(InteractionSession session) {
+        // Needs proper fix to get Entity based on Content Type
+        String contentType = session.header(HttpHeaders.CONTENT_TYPE);
+        if (contentType != null && contentType.contains("xml")) {
+            return true;
+        }
+        return false;
     }
 }

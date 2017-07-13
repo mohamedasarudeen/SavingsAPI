@@ -3,7 +3,7 @@ package com.temenos.interaction.cucumber.test;
 /**
  * Defines the T24 related constants being used across tests.
  *
- * @author ssethupathi
+ * @author mohamedasarudeen
  *
  */
 public class T24Constants {
@@ -14,19 +14,18 @@ public class T24Constants {
         Action(String value) {
             this.value = value;
         }
-        public String getValue(){
+
+        public String getValue() {
             return this.value;
         }
     }
-    
+
     public static final String RECORD_STATUS = "RecordStatus";
     public static final String RECORD_STATUS_REVERSE_UNAUTHORISED = "RNAU";
     public static final String RECORD_STATUS_REVERSE = "REVE";
     public static final String RECORD_STATUS_INPUT_UNAUTHORISED = "INAU";
     public static final String RECORD_STATUS_INPUT_HOLD = "IHLD";
     public static final String RECORD_STATUS_LIVE = "";
-
-    
 
     public static final String ERROR_ELEMENT = "Errors_ErrorsMvGroup";
     public static final String ERROR_CODE = ERROR_ELEMENT + "(%s)/Code";

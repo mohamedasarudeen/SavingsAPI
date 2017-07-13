@@ -5,7 +5,7 @@ import com.temenos.interaction.cucumber.test.InteractionHelper;
 import com.temenos.useragent.generic.InteractionSession;
 
 /**
- * Provides generic functions to run enquiries.
+ * Provides generic functions to run all T24 enquiries.
  *
  * @author mohamedasarudeen
  */

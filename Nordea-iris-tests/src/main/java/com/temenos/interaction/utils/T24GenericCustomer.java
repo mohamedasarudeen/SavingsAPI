@@ -14,10 +14,9 @@ import com.temenos.useragent.generic.InteractionSession;
 import com.temenos.useragent.generic.Url;
 
 /**
- *
  * Provides the generic functions around a T24 CUSTOMER version
  * 
- * @author ssethupathi
+ * @author mohamedasarudeen
  *
  */
 public class T24GenericCustomer {

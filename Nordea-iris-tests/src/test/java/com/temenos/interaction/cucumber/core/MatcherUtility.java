@@ -13,7 +13,7 @@ import com.temenos.useragent.generic.Entity;
 import com.temenos.useragent.generic.InteractionSession;
 
 /**
- * TODO: Document me!
+ * Generic utility matchers functions for handling assertions
  *
  * @author mohamedasarudeen
  *
@@ -30,10 +30,10 @@ public class MatcherUtility {
                 assertThat(entity.get(propertyId), matcher);
             }
         } else {
-            
+
             Entity entity = session.entities().item();
             assertThat(entity.get(propertyId), matcher);
-        
+
         }
     }
 

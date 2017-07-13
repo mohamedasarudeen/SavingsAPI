@@ -11,7 +11,7 @@ import com.temenos.useragent.generic.InteractionSession;
 /**
  * Generic interaction helper providing utility methods.
  * 
- * @author ssethupathi
+ * @author mohamedasarudeen
  *
  */
 public class InteractionHelper {

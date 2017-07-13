@@ -99,61 +99,6 @@
 	</reporting>
 
 	<dependencies>
-<!--		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-odata4j-ext</artifactId>
-			<version>${iris.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-core</artifactId>
-			<version>${iris.version}</version>
-			<type>jar</type>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.xml.stream</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>stax</groupId>
-					<artifactId>stax-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>eclipselink</artifactId>
-					<groupId>org.eclipse.persistence</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
- 		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-springdsl</artifactId>
-			<version>${iris.version}</version>
-			<type>jar</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-winkext</artifactId>
-			<version>${iris.version}</version>
-			<type>jar</type>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-commands-odata</artifactId>
-			<version>${iris.version}</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>interaction-commands-solr</artifactId>
-			<version>${iris.version}</version>
-			<type>jar</type>
-			<scope>runtime</scope>
-		</dependency>
- -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -269,23 +214,6 @@
 			<scope>runtime</scope>
 		</dependency>
     
-    <!-- SPRING -->
-    <!-- Application Context (depends on spring-core, spring-expression, spring-aop, 
-         spring-beans) This is the central artifact for Spring's Dependency Injection 
-         Container and is generally always defined -->
-    <!-- <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
-    </dependency> 
-
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
-        <version>${spring.version}</version>
-        <scope>compile</scope>
-    </dependency>  -->
 
     <!-- Test -->
 
@@ -296,14 +224,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-<!-- 		<dependency>
-			<groupId>com.temenos.interaction</groupId>
-			<artifactId>useragent-odata-html5</artifactId>
-			<version>${iris.version}</version>
-			<scope>runtime</scope>
-		</dependency> -->
-
-  
     <!-- Add dependency for our HAL inspector user-agent -->
 		<dependency>
 			<groupId>com.temenos.interaction</groupId>

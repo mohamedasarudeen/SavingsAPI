@@ -1,5 +1,7 @@
 package com.temenos.interaction.cucumber.rest.step;
 
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getInteractionSession;
+import static com.temenos.interaction.cucumber.rest.step.StepDefinitonBase.getScenarioBundle;
 import static com.temenos.interaction.cucumber.test.InteractionHelper.newInitialisedSession;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,16 +15,22 @@ import com.temenos.useragent.generic.Url;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
 
 /**
  * StepDefiniton Base scripts for implementing in test suites
+ * 
+ * @author mohamedasarudeen
  */
+
 public final class StepDefinitonBase {
+
     private static ConcurrentHashMap<Scenario, InteractionSession> scenarioSessions = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<Scenario, Url> scenarioURL = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<Scenario, ScenarioBundle> scenarioProperties = new ConcurrentHashMap<>();
 
     public static InteractionSession getInteractionSession(Scenario scenario) {
+
         scenarioSessions.putIfAbsent(scenario, newInitialisedSession(null));
         InteractionSession session = scenarioSessions.get(scenario);
         getInteractionSessionURL(scenario, session).baseuri(EndpointConfig.getUri());
@@ -43,7 +51,11 @@ public final class StepDefinitonBase {
 
     public static void clearInteractionSessionURL(Scenario scenario) {
         scenarioURL.remove(scenario);
+    }
 
+    public static void clearInteractionSession(Scenario scenario) {
+        clearInteractionSessionURL(scenario);
+        scenarioSessions.remove(scenario);
     }
 
     public static void executeRequest(Scenario scenario, InteractionSession session, String httpMethod)
@@ -57,17 +69,17 @@ public final class StepDefinitonBase {
         try {
             Method refMethod = url.getClass().getDeclaredMethod(httpMethod.toLowerCase());
             refMethod.invoke(url);
-        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException
-                | IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+            throw new IllegalAccessException("HTTP method not allowed " + httpMethod + " Reason: "
+                    + e.getTargetException().getMessage());
+        } catch (NoSuchMethodException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
             throw new IllegalAccessException("HTTP method not allowed " + httpMethod);
         }
-
     }
 
     @After
     public void teardown(Scenario scenario) {
-        scenarioSessions.remove(scenario);
-        scenarioURL.remove(scenario);
+        clearInteractionSession(scenario);
         scenarioProperties.remove(scenario);
     }
 }
